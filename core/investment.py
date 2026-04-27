@@ -49,12 +49,15 @@ class InvestmentSimulator:
                 "Investment value": investment_value, 
             }
 
-            sum_share = 0.0
-            for asset in self.investment.assets: 
+            sum_share = 0
+            for i, asset in enumerate(self.investment.assets): 
                 asset_value = asset.get_daily_value(daily_stats)
                 share = 0.0
-                if (investment_value > 0): 
-                    share = round((asset_value / investment_value) * 100, 2)
+                if investment_value > 0: 
+                    if i == len(self.investment.assets) - 1:
+                        share = round(100.0 - sum_share, 2)
+                    else: 
+                        share = round((asset_value / investment_value) * 100, 2)
                 
                 row[asset.code] = share
                 sum_share += share
